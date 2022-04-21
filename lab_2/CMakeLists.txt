@@ -10,5 +10,5 @@ include_directories(
 add_executable(box_filter src/box_filter.cpp)
 target_link_libraries(box_filter ${OpenCV_LIBS})
 
-add_executable(diana src/main.cpp)
-target_link_libraries(diana ${OpenCV_LIBS})
+add_executable(main src/main.cpp)
+target_link_libraries(main ${OpenCV_LIBS})

@@ -91,7 +91,7 @@ void laplaseUnsharp(cv::Mat& original, cv::Mat& laplase, double k = 1)
 
 int main(int argc, char const *argv[])
 {
-    int task = 3;
+    int task = 7;
 
 
     Mat img = imread("../data/lena.png");

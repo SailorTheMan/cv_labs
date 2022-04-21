@@ -16,9 +16,11 @@ void find_robots(Mat &src, vector<vector<Point>> &contours, Scalar &range_min, S
     Mat thimg;
     inRange(src, range_min, range_max, thimg);
     Mat opened, closed, dilated;
-    morphologyEx(thimg, opened, MORPH_OPEN, getStructuringElement(MORPH_RECT, Size(3, 3)));
-    morphologyEx(opened, closed, MORPH_CLOSE, getStructuringElement(MORPH_RECT, Size(10, 10)));
-    morphologyEx(closed, dilated, MORPH_DILATE, getStructuringElement(MORPH_RECT, Size(5, 5)));
+    morphologyEx(thimg, opened, MORPH_OPEN, getStructuringElement(MORPH_RECT, Size(5, 5)));
+    morphologyEx(opened, closed, MORPH_CLOSE, getStructuringElement(MORPH_RECT, Size(7, 7)), cv::Point(-1, -1), 3);
+    morphologyEx(closed, opened, MORPH_OPEN, getStructuringElement(MORPH_RECT, Size(3, 3)));
+    morphologyEx(opened, closed, MORPH_CLOSE, getStructuringElement(MORPH_RECT, Size(5, 5)), cv::Point(-1, -1), 4);
+    morphologyEx(closed, dilated, MORPH_DILATE, getStructuringElement(MORPH_RECT, Size(3, 3)), cv::Point(-1, -1), 1);
     vector<vector<Point>> cnts;
     findContours(dilated, cnts, RETR_LIST, CHAIN_APPROX_NONE);
     for (size_t i = 0; i < cnts.size(); i++)
@@ -39,16 +41,24 @@ int main(int argc, char** argv){
 	imshow(fn, img);
     Mat bgrImg, hsvImg, gray;
 
+    //red H:15-38 S:242-255 V:83-138 && H:151-180 S:184-224 V:243-255
+
     Scalar red_low_0(15, 242, 83); 
     Scalar red_high_0(38, 255, 138);
     Scalar red_low_1(151, 184, 224);
     Scalar red_high_1(180, 224, 255);
 
-    Scalar green_low(90, 133, 0);
-    Scalar green_high(119, 255, 255);
-
+//green H:90-128 S:112-255 V:0-255 && H:142-150 S:0-122 V:254-255
+    Scalar green_low(90, 112, 0);
+    Scalar green_high(128, 255, 255);
+    Scalar green_low_1(142, 0, 254);
+    Scalar green_high_1(150, 122, 255);
+    
+//blue H:73-89 S:139-218 V:175-255 && H: 98-157 S:0-107 v:254-255
     Scalar blue_low(73, 139, 0);
     Scalar blue_high(89, 218, 255);
+    Scalar blue_low_1(98, 0, 254);
+    Scalar blue_high_1(157, 107, 255);
 
     Scalar blue_clr(255, 0, 0);
     Scalar green_clr(0, 255, 0);
@@ -58,8 +68,10 @@ int main(int argc, char** argv){
     
     vector<vector<Point>> contours_green;
     find_robots(hsvImg, contours_green, green_low, green_high);
+    find_robots(hsvImg, contours_green, green_low_1, green_high_1);
     vector<vector<Point>> contours_blue;
     find_robots(hsvImg, contours_blue, blue_low, blue_high);
+    find_robots(hsvImg, contours_blue, blue_low_1, blue_high_1);
     vector<vector<Point>> contours_red;
     find_robots(hsvImg, contours_red, red_low_0, red_high_0);
     find_robots(hsvImg, contours_red, red_low_1, red_high_1);
@@ -163,6 +175,3 @@ int main(int argc, char** argv){
     waitKey();
 }
 
-//red H:15-38 S:242-255 V:83-138 && H:151-180 S:184-224 V:243-255
-//green H:90-119 S:133-255 V:0-255
-//blue H:73-89 S:139-218 V:175-255

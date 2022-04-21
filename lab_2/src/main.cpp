@@ -14,24 +14,27 @@ Mat blurImg;
 Mat imDiff;
 
 int main(int argc, char** argv ) { 
-    
-    Mat origImage;
-    origImage = imread("../data/lena.png");
+    while (true){
+        Mat origImage;
+        origImage = imread("../data/lena.png");
 
-    Mat grayImage;
-    cvtColor(origImage, grayImage, COLOR_BGR2GRAY);
-    imshow("grayLenna.png", grayImage);
+        Mat grayImage;
+        cvtColor(origImage, grayImage, COLOR_BGR2GRAY);
+        imshow("grayLenna.png", grayImage);
 
-    boxFiltering(&grayImage);
-    imshow("blurLenna.png", blurImg);
+        boxFiltering(&grayImage);
+        imshow("blurLenna.png", blurImg);
 
-    Mat opencvBlurImage;
-    blur(grayImage,opencvBlurImage,Size(3,3),Point(-1,-1));   
-    imshow("open.png", opencvBlurImage);
+        Mat opencvBlurImage;
+        blur(grayImage,opencvBlurImage,Size(3,3));   
+        imshow("open.png", opencvBlurImage);
 
-    imageDifferent(blurImg, opencvBlurImage);
-    imshow("dif.png", imDiff);
-    waitKey(0);
+        imageDifferent(blurImg, opencvBlurImage);
+        imshow("dif.png", imDiff);
+        if ((waitKey(0) && 255)== 27){
+            break;
+        }
+    }
 
     return 0;
 }

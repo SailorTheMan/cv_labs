@@ -34,7 +34,7 @@ void proc_img(int,void* user_data){
 int main(int argc, char** argv){
 	string fn;
 	if (argc>1) fn= argv[1];
-	else fn = "../img_zadan/roboti/roi_robotov.jpg";
+	else fn = "../img_zadan/allababah/ig_0.jpg";
 	img = imread(fn,0);
 	imshow(fn, img);
 

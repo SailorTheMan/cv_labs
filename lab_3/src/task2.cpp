@@ -47,7 +47,7 @@ int main(int argc, char** argv){
 	string fn;
 	Mat img, thimg;
 	if (argc>1) fn= argv[1];
-	else fn = "../img_zadan/teplovizor/ntcs_quest_measurement.png";
+	else fn = "../img_zadan/roboti/roi_robotov.jpg";
 	img = imread(fn);
 	imshow(fn, img);
 
